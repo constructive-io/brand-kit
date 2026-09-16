@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-74.462 -322.5 252.846 585" width="252.846" height="585">
+  <g stroke="#01A1FF" stroke-width="5" stroke-linejoin="round" stroke-linecap="round">
+    <path d="M155.885 -30L103.923 0L103.923 -60L155.885 -90Z" fill="#01A1FF"/>
+    <path d="M103.923 0L51.962 -30L51.962 -90L103.923 -60Z" fill="#FFFFFF" opacity="0"/>
+    <path d="M155.885 -30L103.923 0L103.923 -60L155.885 -90Z" fill="#01A1FF" opacity="0"/>
+    <path d="M103.923 -120L155.885 -90L103.923 -60L51.962 -90Z" fill="#FFFFFF"/>
+    <path d="M103.923 -120L155.885 -90L103.923 -60L51.962 -90Z" fill="#FFFFFF" opacity="0"/>
+    <path d="M51.962 30L0 0L0 -60L51.962 -30Z" fill="#FFFFFF"/>
+    <path d="M103.923 0L51.962 30L51.962 -30L103.923 -60Z" fill="#01A1FF"/>
+    <path d="M51.962 30L0 0L0 -60L51.962 -30Z" fill="#FFFFFF" opacity="0"/>
+    <path d="M103.923 0L51.962 30L51.962 -30L103.923 -60Z" fill="#01A1FF" opacity="0"/>
+    <path d="M51.962 -90L103.923 -60L51.962 -30L0 -60Z" fill="#FFFFFF"/>
+    <path d="M51.962 -90L103.923 -60L51.962 -30L0 -60Z" fill="#FFFFFF" opacity="0"/>
+    <path d="M0 118.56L-51.962 88.56L-51.962 28.56L0 58.56Z" fill="#FFFFFF" opacity="0.992"/>
+    <path d="M51.962 88.56L0 118.56L0 58.56L51.962 28.56Z" fill="#01A1FF" opacity="0.992"/>
+    <path d="M0 -1.44L51.962 28.56L0 58.56L-51.962 28.56Z" fill="#FFFFFF" opacity="0.992"/>
+    <path d="M0 87.84L-51.962 57.84L-51.962 -2.16L0 27.84Z" fill="#FFFFFF" opacity="0.488"/>
+    <path d="M51.962 57.84L0 87.84L0 27.84L51.962 -2.16Z" fill="#01A1FF" opacity="0.488"/>
+    <path d="M0 -32.16L51.962 -2.16L0 27.84L-51.962 -2.16Z" fill="#FFFFFF" opacity="0.488"/>
+  </g>
+</svg>

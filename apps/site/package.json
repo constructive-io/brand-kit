@@ -1,0 +1,33 @@
+{
+  "name": "site",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -p tsconfig.json --noEmit && vite build",
+    "preview": "vite preview",
+    "lint": "eslint . --fix",
+    "test": "echo 'no tests' && exit 0"
+  },
+  "dependencies": {
+    "@constructive-io/brand-3d": "^0.0.1",
+    "@constructive-io/brand-font": "^0.0.1",
+    "@constructive-io/brand-geometry": "^0.0.1",
+    "@constructive-io/brand-logo": "^0.0.1",
+    "@constructive-io/brand-motion": "^0.0.1",
+    "@constructive-io/brand-motion-2d": "^0.0.1",
+    "@constructive-io/brand-motion-3d": "^0.0.1",
+    "@constructive-io/brand-svg": "^0.0.1",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "three": "^0.180.0"
+  },
+  "devDependencies": {
+    "@types/react": "^19.1.0",
+    "@types/react-dom": "^19.1.0",
+    "@types/three": "^0.180.0",
+    "@vitejs/plugin-react": "^5.0.0",
+    "vite": "^7.1.0"
+  }
+}

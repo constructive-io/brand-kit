@@ -1,0 +1,40 @@
+{
+  "name": "@constructive-io/brand-font",
+  "version": "0.0.1",
+  "author": "Constructive <hello@constructive.io>",
+  "description": "Constructive cube typeface: five-row block alphabet rendered from the shared voxel geometry",
+  "main": "index.js",
+  "module": "esm/index.js",
+  "types": "index.d.ts",
+  "homepage": "https://github.com/constructive-io/brand-kit",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public",
+    "directory": "dist"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/constructive-io/brand-kit"
+  },
+  "bugs": {
+    "url": "https://github.com/constructive-io/brand-kit/issues"
+  },
+  "scripts": {
+    "clean": "makage clean",
+    "prepack": "npm run build",
+    "build": "makage build",
+    "build:dev": "makage build --dev",
+    "lint": "eslint . --fix",
+    "test": "jest --passWithNoTests",
+    "test:watch": "jest --watch"
+  },
+  "keywords": [],
+  "devDependencies": {
+    "makage": "^0.5.1"
+  },
+  "dependencies": {
+    "@constructive-io/brand-geometry": "^0.0.1",
+    "@constructive-io/brand-svg": "^0.0.1",
+    "@constructive-io/brand-3d": "^0.0.1"
+  }
+}

@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-44.641 -110 227.846 300" width="227.846" height="300">
+  <g stroke="#01A1FF" stroke-width="4" stroke-linejoin="round" stroke-linecap="round">
+    <path d="M173.205 100L138.564 120L138.564 80L173.205 60Z" fill="#01A1FF"/>
+    <path d="M173.205 60L138.564 80L138.564 40L173.205 20Z" fill="#01A1FF"/>
+    <path d="M138.564 120L103.923 140L103.923 100L138.564 80Z" fill="#01A1FF"/>
+    <path d="M173.205 20L138.564 40L138.564 0L173.205 -20Z" fill="#01A1FF"/>
+    <path d="M138.564 40L103.923 20L103.923 -20L138.564 0Z" fill="#FFFFFF"/>
+    <path d="M138.564 80L103.923 100L103.923 60L138.564 40Z" fill="#01A1FF"/>
+    <path d="M103.923 100L69.282 80L69.282 40L103.923 60Z" fill="#FFFFFF"/>
+    <path d="M103.923 140L69.282 160L69.282 120L103.923 100Z" fill="#01A1FF"/>
+    <path d="M103.923 20L138.564 40L103.923 60L69.282 40Z" fill="#FFFFFF"/>
+    <path d="M69.282 80L103.923 100L69.282 120L34.641 100Z" fill="#FFFFFF"/>
+    <path d="M173.205 -20L138.564 0L138.564 -40L173.205 -60Z" fill="#01A1FF"/>
+    <path d="M138.564 0L103.923 -20L103.923 -60L138.564 -40Z" fill="#FFFFFF"/>
+    <path d="M69.282 160L34.641 180L34.641 140L69.282 120Z" fill="#01A1FF"/>
+    <path d="M34.641 180L0 160L0 120L34.641 140Z" fill="#FFFFFF"/>
+    <path d="M138.564 -80L173.205 -60L138.564 -40L103.923 -60Z" fill="#FFFFFF"/>
+    <path d="M34.641 100L69.282 120L34.641 140L0 120Z" fill="#FFFFFF"/>
+    <path d="M103.923 60L69.282 80L69.282 40L103.923 20Z" fill="#01A1FF"/>
+    <path d="M69.282 80L34.641 60L34.641 20L69.282 40Z" fill="#FFFFFF"/>
+    <path d="M69.282 0L103.923 20L69.282 40L34.641 20Z" fill="#FFFFFF"/>
+    <path d="M138.564 -40L103.923 -20L103.923 -60L138.564 -80Z" fill="#01A1FF"/>
+    <path d="M34.641 140L0 160L0 120L34.641 100Z" fill="#01A1FF"/>
+    <path d="M0 160L-34.641 140L-34.641 100L0 120Z" fill="#FFFFFF"/>
+    <path d="M103.923 -100L138.564 -80L103.923 -60L69.282 -80Z" fill="#FFFFFF"/>
+    <path d="M103.923 -20L69.282 0L69.282 -40L103.923 -60Z" fill="#01A1FF"/>
+    <path d="M34.641 100L0 120L0 80L34.641 60Z" fill="#01A1FF"/>
+    <path d="M0 120L-34.641 100L-34.641 60L0 80Z" fill="#FFFFFF"/>
+    <path d="M69.282 -80L103.923 -60L69.282 -40L34.641 -60Z" fill="#FFFFFF"/>
+    <path d="M69.282 0L34.641 20L34.641 -20L69.282 -40Z" fill="#01A1FF"/>
+    <path d="M34.641 20L0 0L0 -40L34.641 -20Z" fill="#FFFFFF"/>
+    <path d="M34.641 60L0 80L0 40L34.641 20Z" fill="#01A1FF"/>
+    <path d="M0 80L-34.641 60L-34.641 20L0 40Z" fill="#FFFFFF"/>
+    <path d="M34.641 -60L69.282 -40L34.641 -20L0 -40Z" fill="#FFFFFF"/>
+    <path d="M0 0L34.641 20L0 40L-34.641 20Z" fill="#FFFFFF"/>
+  </g>
+</svg>

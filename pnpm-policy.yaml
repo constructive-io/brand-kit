@@ -1,0 +1,77 @@
+# Supply-chain policy for this workspace, enforced by pnpm itself.
+#
+# It produces the settings in pnpm-workspace.yaml under the `Managed by
+# pnpm-policy` marker. Edit this file, then run:
+#
+#   pnpm run policy        # rewrite the managed block
+#   pnpm run policy:check  # CI: fail if the two drift apart
+
+# How old a release must be before this workspace will install it. Attacks on the
+# registry — a hijacked maintainer account, a typosquat, a postinstall that reads
+# your environment — are usually caught and yanked within days of publication, so
+# a short wait removes most of the exposure and costs you nothing but currency.
+minimumReleaseAge: 2d
+
+# Packages allowed to run install scripts, which are arbitrary code executed on
+# your machine (and your CI) at install time. pnpm blocks them unless listed, so
+# add one only when a package genuinely needs it, and say why:
+#
+#   allowBuilds:
+#     esbuild: native binary, downloaded at install time
+#     sharp: libvips bindings
+allowBuilds: []
+
+# pnpm treats an install script that is neither allowed nor denied as an open
+# question: it warns, and pnpm 11 refuses to install until someone answers the
+# interactive `pnpm approve-builds` prompt. Answer here instead, so a fresh clone
+# installs without a prompt and the decision is reviewed like any other code.
+# `false` means "we looked, this script is not needed" — each of these ships a
+# prebuilt binary as an optional dependency and only compiles as a fallback.
+#
+# When a new dependency shows up in ERR_PNPM_IGNORED_BUILDS, add it here (or to
+# allowBuilds above, with a reason) and run `pnpm run policy`. Do not run
+# `pnpm approve-builds`: it writes outside the managed block and fails policy:check.
+settings:
+  allowBuilds:
+    esbuild: true # native binary, downloaded at install time (vite)
+    "@parcel/watcher": false # prebuilt binary ships as an optional dep
+    nx: false # prebuilt binary ships as an optional dep
+    unrs-resolver: false # prebuilt binary ships as an optional dep
+
+# Transitive dependencies must come from the registry, not from a git or URL
+# reference that no wait or integrity check applies to.
+blockExoticSubdeps: true
+
+# Skip the wait for a specific package — the case that matters is a security fix
+# published today that you need today. A reason is required, and `until` expires
+# the waiver so `policy:check` makes you re-justify it instead of letting it live
+# forever:
+#
+#   exceptions:
+#     - package: lodash
+#       versions: ["4.17.21"]
+#       reason: CVE-2021-23337 fix, published today
+#       until: 2026-09-01
+exceptions: []
+
+# Waiting on a release protects you from a compromised *third party*. The
+# toolchain this workspace runs on (pgpm, makage, pnpm-policy, the @pgpmjs and
+# @constructive-io packages) is published by the
+# same people who wrote this template, so those skip the wait — otherwise every
+# fresh scaffold would refuse to install for two days after each of their releases.
+#
+# Scopes are exempted as globs. Unscoped names come from published inventories,
+# pinned in package.json so a change in what skips the wait arrives as a version
+# bump you can review. `intersect: false` because a fresh scaffold has no lockfile
+# to intersect against yet; flip it on once you have one if you prefer a shorter
+# pnpm-workspace.yaml.
+scopes:
+  - "@constructive-io"
+  - "@constructive-db"
+  - "@launchql"
+  - "@pgpm"
+  - "@pgpmjs"
+  - "@pgsql"
+inventory:
+  - "@constructive-io/pnpm-policy/inventory.json"
+intersect: false

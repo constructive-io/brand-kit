@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-44.641 -50 123.923 260" width="123.923" height="260">
+  <g stroke="#01A1FF" stroke-width="4" stroke-linejoin="round" stroke-linecap="round">
+    <path d="M69.282 120L34.641 140L34.641 100L69.282 80Z" fill="#01A1FF"/>
+    <path d="M34.641 140L0 120L0 80L34.641 100Z" fill="#FFFFFF"/>
+    <path d="M34.641 180L0 200L0 160L34.641 140Z" fill="#01A1FF"/>
+    <path d="M0 200L-34.641 180L-34.641 140L0 160Z" fill="#FFFFFF"/>
+    <path d="M0 120L34.641 140L0 160L-34.641 140Z" fill="#FFFFFF"/>
+    <path d="M69.282 80L34.641 100L34.641 60L69.282 40Z" fill="#01A1FF"/>
+    <path d="M34.641 100L0 80L0 40L34.641 60Z" fill="#FFFFFF"/>
+    <path d="M69.282 40L34.641 60L34.641 20L69.282 0Z" fill="#01A1FF"/>
+    <path d="M34.641 60L0 40L0 0L34.641 20Z" fill="#FFFFFF"/>
+    <path d="M34.641 -20L69.282 0L34.641 20L0 0Z" fill="#FFFFFF"/>
+    <path d="M34.641 20L0 40L0 0L34.641 -20Z" fill="#01A1FF"/>
+    <path d="M0 40L-34.641 20L-34.641 -20L0 0Z" fill="#FFFFFF"/>
+    <path d="M0 -40L34.641 -20L0 0L-34.641 -20Z" fill="#FFFFFF"/>
+  </g>
+</svg>

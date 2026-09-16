@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-365.346 -386.591 834.615 878.565" width="834.615" height="878.565">
+  <g stroke="#01A1FF" stroke-width="5" stroke-linejoin="round" stroke-linecap="round">
+    <path d="M109.019 9.115L57.058 -20.885L57.058 -80.885L109.019 -50.885Z" fill="#FFFFFF" opacity="0.4"/>
+    <path d="M160.981 -20.885L109.019 9.115L109.019 -50.885L160.981 -80.885Z" fill="#01A1FF" opacity="0.4"/>
+    <path d="M109.019 -110.885L160.981 -80.885L109.019 -50.885L57.058 -80.885Z" fill="#FFFFFF" opacity="0.4"/>
+    <path d="M316.865 102.058L264.904 72.058L264.904 12.058L316.865 42.058Z" fill="#FFFFFF" opacity="0.4"/>
+    <path d="M368.827 72.058L316.865 102.058L316.865 42.058L368.827 12.058Z" fill="#01A1FF" opacity="0.4"/>
+    <path d="M316.865 -17.942L368.827 12.058L316.865 42.058L264.904 12.058Z" fill="#FFFFFF" opacity="0.4"/>
+    <path d="M-155.885 0L-207.846 -30L-207.846 -90L-155.885 -60Z" fill="#FFFFFF" opacity="0.4"/>
+    <path d="M-103.923 -30L-155.885 0L-155.885 -60L-103.923 -90Z" fill="#01A1FF" opacity="0.4"/>
+    <path d="M-155.885 -120L-103.923 -90L-155.885 -60L-207.846 -90Z" fill="#FFFFFF" opacity="0.4"/>
+    <path d="M-212.942 75L-264.904 45L-264.904 -15L-212.942 15Z" fill="#FFFFFF" opacity="0.4"/>
+    <path d="M-160.981 45L-212.942 75L-212.942 15L-160.981 -15Z" fill="#01A1FF" opacity="0.4"/>
+    <path d="M-212.942 -45L-160.981 -15L-212.942 15L-264.904 -15Z" fill="#FFFFFF" opacity="0.4"/>
+    <path d="M207.846 120L155.885 90L155.885 30L207.846 60Z" fill="#FFFFFF" opacity="0.4"/>
+    <path d="M259.808 90L207.846 120L207.846 60L259.808 30Z" fill="#01A1FF" opacity="0.4"/>
+    <path d="M207.846 0L259.808 30L207.846 60L155.885 30Z" fill="#FFFFFF" opacity="0.4"/>
+    <path d="M46.865 77.942L-5.096 47.942L-5.096 -12.058L46.865 17.942Z" fill="#FFFFFF" opacity="0.4"/>
+    <path d="M98.827 47.942L46.865 77.942L46.865 17.942L98.827 -12.058Z" fill="#01A1FF" opacity="0.4"/>
+    <path d="M46.865 -42.058L98.827 -12.058L46.865 17.942L-5.096 -12.058Z" fill="#FFFFFF" opacity="0.4"/>
+  </g>
+</svg>

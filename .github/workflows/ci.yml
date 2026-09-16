@@ -1,0 +1,64 @@
+name: CI
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        package:
+          - geometry
+          - svg
+          - 3d
+          - font
+          - logo
+          - motion
+          - motion-2d
+          - motion-3d
+          - cli
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 12
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'pnpm'
+      
+      - name: Install
+        run: pnpm install
+
+      # Fails when pnpm-workspace.yaml no longer matches pnpm-policy.yaml, or when a
+      # waiver has passed its expiry date.
+      - name: Check supply-chain policy
+        run: pnpm run policy:check
+
+      - name: Build
+        run: pnpm -r build
+
+      - name: Lint
+        run: pnpm -r lint
+
+      - name: Test ${{ matrix.package }}
+        run: cd ./packages/${{ matrix.package }} && pnpm test
+
+      - name: Check generated assets are current
+        run: |
+          pnpm generate
+          git diff --exit-code -- assets/generated
+

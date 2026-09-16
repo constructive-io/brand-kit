@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-74.462 -382.5 252.846 645" width="252.846" height="645">
+  <g stroke="#01A1FF" stroke-width="5" stroke-linejoin="round" stroke-linecap="round">
+    <path d="M103.923 -60L51.962 -90L51.962 -150L103.923 -120Z" fill="#FFFFFF" opacity="0.3"/>
+    <path d="M155.885 -90L103.923 -60L103.923 -120L155.885 -150Z" fill="#01A1FF" opacity="0.3"/>
+    <path d="M103.923 -180L155.885 -150L103.923 -120L51.962 -150Z" fill="#FFFFFF" opacity="0.3"/>
+    <path d="M51.962 -30L0 -60L0 -120L51.962 -90Z" fill="#FFFFFF" opacity="0.3"/>
+    <path d="M103.923 -60L51.962 -30L51.962 -90L103.923 -120Z" fill="#01A1FF" opacity="0.3"/>
+    <path d="M51.962 -150L103.923 -120L51.962 -90L0 -120Z" fill="#FFFFFF" opacity="0.3"/>
+    <path d="M103.923 -240L51.962 -270L51.962 -330L103.923 -300Z" fill="#FFFFFF" opacity="0.3"/>
+    <path d="M155.885 -270L103.923 -240L103.923 -300L155.885 -330Z" fill="#01A1FF" opacity="0.3"/>
+    <path d="M0 -60L-51.962 -90L-51.962 -150L0 -120Z" fill="#FFFFFF" opacity="0.3"/>
+    <path d="M51.962 -90L0 -60L0 -120L51.962 -150Z" fill="#01A1FF" opacity="0.3"/>
+    <path d="M103.923 -360L155.885 -330L103.923 -300L51.962 -330Z" fill="#FFFFFF" opacity="0.3"/>
+    <path d="M0 -180L51.962 -150L0 -120L-51.962 -150Z" fill="#FFFFFF" opacity="0.3"/>
+    <path d="M51.962 -210L0 -240L0 -300L51.962 -270Z" fill="#FFFFFF" opacity="0.3"/>
+    <path d="M103.923 -240L51.962 -210L51.962 -270L103.923 -300Z" fill="#01A1FF" opacity="0.3"/>
+    <path d="M0 -120L-51.962 -150L-51.962 -210L0 -180Z" fill="#FFFFFF" opacity="0.3"/>
+    <path d="M51.962 -150L0 -120L0 -180L51.962 -210Z" fill="#01A1FF" opacity="0.3"/>
+    <path d="M51.962 -330L103.923 -300L51.962 -270L0 -300Z" fill="#FFFFFF" opacity="0.3"/>
+    <path d="M0 -240L51.962 -210L0 -180L-51.962 -210Z" fill="#FFFFFF" opacity="0.3"/>
+  </g>
+</svg>

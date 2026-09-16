@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-440.692 -85 569.615 650" width="569.615" height="650">
+  <g stroke="#01A1FF" stroke-width="10" stroke-linejoin="round" stroke-linecap="round">
+    <path d="M103.923 300L0 360L0 240L103.923 180Z" fill="#01A1FF"/>
+    <path d="M0 360L-103.923 300L-103.923 180L0 240Z" fill="#FFFFFF"/>
+    <path d="M103.923 180L0 240L0 120L103.923 60Z" fill="#01A1FF"/>
+    <path d="M0 240L-103.923 180L-103.923 60L0 120Z" fill="#FFFFFF"/>
+    <path d="M0 0L103.923 60L0 120L-103.923 60Z" fill="#FFFFFF"/>
+    <path d="M0 120L-103.923 180L-103.923 60L0 0Z" fill="#01A1FF"/>
+    <path d="M-207.846 480L-311.769 540L-311.769 420L-207.846 360Z" fill="#01A1FF"/>
+    <path d="M-311.769 540L-415.692 480L-415.692 360L-311.769 420Z" fill="#FFFFFF"/>
+    <path d="M-103.923 -60L0 0L-103.923 60L-207.846 0Z" fill="#FFFFFF"/>
+    <path d="M-103.923 180L-207.846 240L-207.846 120L-103.923 60Z" fill="#01A1FF"/>
+    <path d="M-207.846 240L-311.769 180L-311.769 60L-207.846 120Z" fill="#FFFFFF"/>
+    <path d="M-207.846 360L-311.769 420L-311.769 300L-207.846 240Z" fill="#01A1FF"/>
+    <path d="M-311.769 420L-415.692 360L-415.692 240L-311.769 300Z" fill="#FFFFFF"/>
+    <path d="M-207.846 0L-103.923 60L-207.846 120L-311.769 60Z" fill="#FFFFFF"/>
+    <path d="M-311.769 180L-207.846 240L-311.769 300L-415.692 240Z" fill="#FFFFFF"/>
+  </g>
+</svg>
