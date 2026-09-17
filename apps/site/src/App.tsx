@@ -7,6 +7,7 @@ import { Hero } from './sections/Hero';
 import { Logos } from './sections/Logos';
 import { Motion } from './sections/Motion';
 import { Playground } from './sections/Playground';
+import { Showreel } from './sections/Showreel';
 
 const links = [
   ['#derivation', 'Derivation'],
@@ -14,6 +15,7 @@ const links = [
   ['#colors', 'Color & type'],
   ['#playground', 'Playground'],
   ['#motion', 'Motion'],
+  ['#showreel', 'Showreel'],
   ['https://github.com/constructive-io/brand-kit', 'GitHub'],
 ] as const;
 
@@ -52,6 +54,7 @@ export function App() {
         <Colors />
         <Playground theme={theme} />
         <Motion theme={theme} />
+        <Showreel theme={theme} />
       </main>
       <footer className="footer">
         Constructive brand kit · geometry, SVG, OBJ and this site are generated from one voxel model ·{' '}

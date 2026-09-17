@@ -11,6 +11,8 @@ export interface MarkCanvasProps extends SceneOptions {
   className?: string;
   /** Per-voxel animation frame from brand-motion; overrides `explode` while set. */
   states?: VoxelState[] | null;
+  /** Choreography time for `camera="path"`. */
+  t?: number;
 }
 
 export interface MarkCanvasHandle {
@@ -19,7 +21,7 @@ export interface MarkCanvasHandle {
 
 /** Thin React wrapper: owns a <canvas>, hands it to CubeScene, forwards props. */
 export const MarkCanvas = forwardRef<MarkCanvasHandle, MarkCanvasProps>(function MarkCanvas(
-  { model, className, states = null, ...opts },
+  { model, className, states = null, t = 0, ...opts },
   ref,
 ) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -44,11 +46,11 @@ export const MarkCanvas = forwardRef<MarkCanvasHandle, MarkCanvasProps>(function
 
   useEffect(() => {
     sceneRef.current?.update(opts);
-  }, [opts.style, opts.explode, opts.wireframe, opts.autoRotate, opts.camera]);
+  }, [opts.style, opts.explode, opts.wireframe, opts.autoRotate, opts.camera, opts.cameraPath]);
 
   useEffect(() => {
-    sceneRef.current?.setStates(states);
-  }, [states, model]);
+    sceneRef.current?.setStates(states, t);
+  }, [states, t, model]);
 
   useImperativeHandle(ref, () => ({ resetView: () => sceneRef.current?.resetView() }), []);
 

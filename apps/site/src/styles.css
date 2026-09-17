@@ -561,3 +561,116 @@ input[type='text'] {
 .timeline input[type='range'] {
   width: 100%;
 }
+
+/* showreel */
+
+.reel-stage {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 900px) {
+  .reel-stage.both {
+    grid-template-columns: 3fr 2fr;
+  }
+}
+
+.reel-3d,
+.reel-2d {
+  position: relative;
+  min-height: 320px;
+  aspect-ratio: 16 / 10;
+  max-height: none;
+}
+
+.reel-2d {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.reel-2d svg {
+  position: absolute;
+  inset: 1rem;
+  width: calc(100% - 2rem);
+  height: calc(100% - 2rem);
+}
+
+.reel-badge {
+  position: absolute;
+  left: 0.75rem;
+  bottom: 0.75rem;
+  padding: 0.25rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  color: var(--muted);
+  background: color-mix(in srgb, var(--bg) 80%, transparent);
+  border: 1px solid var(--line);
+}
+
+.reel-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 1rem;
+  flex-wrap: wrap;
+}
+
+.reel-tiles {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.reel-tiles.dense {
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+}
+
+.reel-tile {
+  all: unset;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  border-radius: var(--radius);
+  border: 1px solid var(--line);
+  background: var(--panel);
+  overflow: hidden;
+  transition: border-color 0.15s, transform 0.15s;
+}
+
+.reel-tile:hover {
+  border-color: var(--blue);
+  transform: translateY(-2px);
+}
+
+.reel-tile.on {
+  border-color: var(--blue);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--blue) 35%, transparent);
+}
+
+.reel-tiles {
+  align-items: start;
+}
+
+.reel-tile-img {
+  position: relative;
+  aspect-ratio: 1;
+}
+
+.reel-tile-img svg {
+  position: absolute;
+  inset: 0.75rem;
+  width: calc(100% - 1.5rem);
+  height: calc(100% - 1.5rem);
+}
+
+.reel-tile-label {
+  padding: 0.45rem 0.7rem;
+  font-size: 0.75rem;
+  color: var(--muted);
+  border-top: 1px solid var(--line);
+  background: var(--bg);
+}

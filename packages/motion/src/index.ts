@@ -409,6 +409,100 @@ export function choreography(family: Family, preset: string, distance?: number):
 }
 
 // ---------------------------------------------------------------------------
+// composition
+
+/** Play a choreography backwards: t=0 at rest, t=1 fully displaced. */
+export function reverse(c: Choreography): Choreography {
+  return (model, t) => c(model, 1 - t);
+}
+
+/** Run to rest in the first half, then un-build in the second. */
+export function mirror(c: Choreography): Choreography {
+  return (model, t) => c(model, t < 0.5 ? t * 2 : 2 - t * 2);
+}
+
+/** Hold a choreography at a fixed time (usually 1 = at rest) for a segment. */
+export function hold(c: Choreography, at = 1): Choreography {
+  return (model) => c(model, at);
+}
+
+export interface ChainStep {
+  choreo: Choreography;
+  /** Relative length of this step; defaults to 1. */
+  weight?: number;
+}
+
+/**
+ * Concatenate choreographies in time. Each step runs 0→1 over its slice of the
+ * whole; steps should therefore start and end at rest (or be `reverse`d) to
+ * avoid pops at the seams.
+ */
+export function chain(steps: ChainStep[]): Choreography {
+  const weights = steps.map((s) => s.weight ?? 1);
+  const total = weights.reduce((a, b) => a + b, 0);
+  return (model, t) => {
+    let acc = 0;
+    for (let i = 0; i < steps.length; i++) {
+      const w = weights[i] / total;
+      const last = i === steps.length - 1;
+      if (t < acc + w || last) return steps[i].choreo(model, clamp01((t - acc) / w));
+      acc += w;
+    }
+    return steps[steps.length - 1].choreo(model, 1);
+  };
+}
+
+/** Add the displacement/spin of `b` on top of `a` (scale and opacity multiply). Good for idle layers. */
+export function layer(a: Choreography, b: Choreography): Choreography {
+  return (model, t) => {
+    const sa = a(model, t);
+    const sb = b(model, t);
+    return sa.map((s, i) => ({
+      offset: { x: s.offset.x + sb[i].offset.x, y: s.offset.y + sb[i].offset.y, z: s.offset.z + sb[i].offset.z },
+      scale: s.scale * sb[i].scale,
+      opacity: s.opacity * sb[i].opacity,
+      spin: s.spin + sb[i].spin,
+    }));
+  };
+}
+
+/**
+ * Longer, multi-act sequences built from the families above. Every act is
+ * arranged to start and end at rest, so reels loop without a seam. These are
+ * what the site's showreel and the README previews play.
+ */
+export const reels = {
+  /** Cubes drop in like tetris, settle, breathe, then scatter away. */
+  'build-breathe-scatter': chain([
+    { choreo: tetris({ preset: 'cascade' }), weight: 3 },
+    { choreo: mirror(reverse(converge({ preset: 'breathe' }))), weight: 2 },
+    { choreo: reverse(explode({ preset: 'scatter' })), weight: 2 },
+  ]),
+  /** Spiral in from orbit, hold, spiral back out. */
+  'orbit-in-out': chain([
+    { choreo: orbit({ preset: 'spiral-in' }), weight: 3 },
+    { choreo: hold(orbit()), weight: 1 },
+    { choreo: reverse(orbit({ preset: 'helix' })), weight: 3 },
+  ]),
+  /** Print layer by layer, wave once, un-print. */
+  'print-wave': chain([
+    { choreo: assemble({ preset: 'print' }), weight: 3 },
+    { choreo: mirror(reverse(converge({ preset: 'wave' }))), weight: 2 },
+    { choreo: reverse(assemble({ preset: 'bottom-up' })), weight: 2 },
+  ]),
+  /** Typewriter assembly for text; a full sentence in cubes. */
+  'typewriter-hold': chain([
+    { choreo: assemble({ preset: 'typewriter' }), weight: 4 },
+    { choreo: mirror(reverse(converge({ preset: 'stagger' }))), weight: 2 },
+    { choreo: reverse(explode({ preset: 'gravity' })), weight: 2 },
+  ]),
+  /** Radial explode and rebuild — the classic loop. */
+  pulse: mirror(reverse(explode({ preset: 'radial', distance: 2 }))),
+} satisfies Record<string, Choreography>;
+
+export type Reel = keyof typeof reels;
+
+// ---------------------------------------------------------------------------
 // timeline
 
 export type PlaybackMode = 'once' | 'loop' | 'bounce';

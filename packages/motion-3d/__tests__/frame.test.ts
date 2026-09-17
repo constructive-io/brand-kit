@@ -1,6 +1,7 @@
 import { project } from '@constructive-io/brand-geometry';
 import * as THREE from 'three';
 
+import { CameraPath, cameraPaths, ISO_POSE, poseToPosition } from '../src/camera';
 import { BOX_FACE_ORDER, isoCameraPosition, toScene, vecToScene } from '../src/frame';
 
 /** Project a scene-space point the way the iso camera does, in screen units (y down). */
@@ -42,5 +43,26 @@ describe('brand → scene frame', () => {
     expect(BOX_FACE_ORDER[0]).toBe('left'); // scene +x = brand +y
     expect(BOX_FACE_ORDER[2]).toBe('right'); // scene +y = brand +x
     expect(BOX_FACE_ORDER[4]).toBe('top');
+  });
+});
+
+describe('camera paths', () => {
+  it('iso pose lands on the (1,1,1) diagonal', () => {
+    const p = poseToPosition(ISO_POSE, Math.sqrt(300));
+    expect(p.x).toBeCloseTo(10);
+    expect(p.y).toBeCloseTo(10);
+    expect(p.z).toBeCloseTo(10);
+  });
+  it('every path starts and ends on the iso pose except orbit/drift which are periodic', () => {
+    for (const [name, path] of Object.entries(cameraPaths) as [string, CameraPath][]) {
+      const a = path(0);
+      const b = path(1);
+      if (name === 'orbit') expect(b.azimuth - a.azimuth).toBeCloseTo(Math.PI * 2);
+      else if (name === 'dolly' || name === 'plan-to-iso') {
+        expect(b.azimuth).toBeCloseTo(0);
+        expect(b.distance).toBeCloseTo(1);
+      }
+      else expect(b.azimuth).toBeCloseTo(a.azimuth);
+    }
   });
 });

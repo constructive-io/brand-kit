@@ -3,6 +3,7 @@ import { VoxelState } from '@constructive-io/brand-motion';
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
+import { CameraPath, cameraPaths, poseToPosition } from './camera';
 import { BOX_FACE_ORDER, hasWebGL, isoCameraPosition, toScene, vecToScene } from './frame';
 
 export interface SceneStyle extends FaceColors {
@@ -16,8 +17,13 @@ export interface SceneOptions {
   explode: number;
   wireframe: boolean;
   autoRotate: boolean;
-  /** Orthographic isometric camera vs. free perspective orbit. */
-  camera: 'iso' | 'free';
+  /**
+   * `iso`: orthographic camera locked to the isometric diagonal.
+   * `free`: perspective camera with orbit controls.
+   * `path`: perspective camera driven by `cameraPath` at the time passed to `setStates`.
+   */
+  camera: 'iso' | 'free' | 'path';
+  cameraPath?: CameraPath;
 }
 
 export { hasWebGL };
@@ -37,6 +43,8 @@ export class CubeScene {
   private cubes: { mesh: THREE.Mesh; edges: THREE.LineSegments; home: THREE.Vector3; dir: THREE.Vector3 }[] = [];
   private opts: SceneOptions;
   private states: VoxelState[] | null = null;
+  private time = 0;
+  private fitDistance = 10;
   private frame = 0;
   private disposed = false;
   private ro: ResizeObserver;
@@ -116,12 +124,14 @@ export class CubeScene {
     this.ortho.top = span;
     this.ortho.bottom = -span;
     this.ortho.updateProjectionMatrix();
-    this.persp.position.setLength(span * 2.6);
+    this.fitDistance = span * 2.6;
+    this.persp.position.setLength(this.fitDistance);
     this.controls.update();
   }
 
   update(opts: Partial<SceneOptions>): void {
     const styleChanged = opts.style && JSON.stringify(opts.style) !== JSON.stringify(this.opts.style);
+    if (opts.camera === 'free' && this.opts.camera === 'path') this.resetView();
     this.opts = { ...this.opts, ...opts };
     if (styleChanged) {
       for (const c of this.cubes) {
@@ -133,9 +143,13 @@ export class CubeScene {
     this.applyOptions();
   }
 
-  /** Drive cubes from a brand-motion choreography frame; null returns to the explode slider. */
-  setStates(states: VoxelState[] | null): void {
+  /**
+   * Drive cubes from a brand-motion choreography frame; null returns to the
+   * explode slider. `t` is the choreography time, used by `camera: 'path'`.
+   */
+  setStates(states: VoxelState[] | null, t = 0): void {
     this.states = states;
+    this.time = t;
     this.applyOptions();
   }
 
@@ -194,6 +208,11 @@ export class CubeScene {
     } else if (this.opts.camera === 'iso') {
       // ease back to the canonical orientation
       this.group.rotation.z += (0 - this.group.rotation.z) * 0.1;
+    } else if (this.opts.camera === 'path') {
+      this.group.rotation.z = 0;
+      const pose = (this.opts.cameraPath ?? cameraPaths.iso)(this.time);
+      this.persp.position.copy(poseToPosition(pose, this.fitDistance * 0.7));
+      this.persp.lookAt(0, 0, 0);
     } else {
       this.group.rotation.z = 0;
       this.controls.update();

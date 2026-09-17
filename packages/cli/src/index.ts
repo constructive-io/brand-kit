@@ -2,7 +2,7 @@ import { exportObj } from '@constructive-io/brand-3d';
 import { supportedChars, textToVoxels } from '@constructive-io/brand-font';
 import { colorways, gridToVoxels, isIsoPlane, ISO_PLANES, IsoPlane, VoxelModel } from '@constructive-io/brand-geometry';
 import { MARK, MARK_GRID } from '@constructive-io/brand-logo';
-import { choreography, Family, presets } from '@constructive-io/brand-motion';
+import { choreography, Family, presets, Reel, reels } from '@constructive-io/brand-motion';
 import { animatedSvg, Frame, sequence } from '@constructive-io/brand-motion-2d';
 import { RenderMode, renderSvg } from '@constructive-io/brand-svg';
 import { mkdirSync, writeFileSync } from 'fs';
@@ -162,6 +162,13 @@ export function generateAll(): GeneratedFile[] {
     push(`svg/motion/${family}-${preset}-t00.svg`, frames[0].svg);
     push(`svg/motion/${family}-${preset}-t05.svg`, frames[1].svg);
     push(`svg/motion/${family}-${preset}.anim.svg`, animatedSvg(MARK, choreo, { ...opts, frames: 24, duration: 2.5, playback: 'bounce' }));
+  }
+
+  // Multi-act reels, looping; the typewriter reel runs on cube text.
+  for (const name of Object.keys(reels) as Reel[]) {
+    const model = name === 'typewriter-hold' ? textToVoxels('BRAND') : MARK;
+    const opts = { size: name === 'typewriter-hold' ? 24 : 60, strokeWidth: name === 'typewriter-hold' ? 2 : 5, colors: colorways.light };
+    push(`svg/motion/reel-${name}.anim.svg`, animatedSvg(model, reels[name], { ...opts, frames: name === 'typewriter-hold' ? 48 : 72, duration: name === 'pulse' ? 4 : 9, playback: 'loop' }));
   }
 
   return files;
