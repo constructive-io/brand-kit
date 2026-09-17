@@ -76,6 +76,26 @@ describe('obj export', () => {
     expect(mtl).toMatchSnapshot();
   });
 
+  it('maps brand space to a right-handed frame and keeps outward CCW winding', () => {
+    // brand +x is screen-right from the (1,1,1) iso camera; in a right-handed scene that axis is +y.
+    const m = buildMesh(gridToVoxels([[1, 1]], 'xy'), { center: false });
+    const obj = toObj(m, { yUp: false });
+    expect(obj).toContain('v 0.0000 2.0000 0.0000');
+    expect(obj).not.toContain('v 2.0000 0.0000 0.0000');
+
+    const v = obj.split('\n').filter((l) => l.startsWith('v ')).map((l) => l.slice(2).split(' ').map(Number));
+    const vn = obj.split('\n').filter((l) => l.startsWith('vn ')).map((l) => l.slice(3).split(' ').map(Number));
+    for (const line of obj.split('\n').filter((l) => l.startsWith('f '))) {
+      const refs = line.slice(2).split(' ').map((r) => r.split('//').map(Number));
+      const [a, b, c] = refs.map(([i]) => v[i - 1]);
+      const ab = [b[0] - a[0], b[1] - a[1], b[2] - a[2]];
+      const ac = [c[0] - a[0], c[1] - a[1], c[2] - a[2]];
+      const cross = [ab[1] * ac[2] - ab[2] * ac[1], ab[2] * ac[0] - ab[0] * ac[2], ab[0] * ac[1] - ab[1] * ac[0]];
+      const n = vn[refs[0][1] - 1];
+      expect(cross[0] * n[0] + cross[1] * n[1] + cross[2] * n[2]).toBeGreaterThan(0);
+    }
+  });
+
   it('z-up keeps world axes', () => {
     const m = buildMesh(gridToVoxels([[1]], 'xy'));
     expect(toObj(m, { yUp: false })).toContain('v 0.0000 0.0000 1.0000');
