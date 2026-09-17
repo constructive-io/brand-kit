@@ -30,7 +30,7 @@ export function Playground({ theme }: { theme: 'light' | 'dark' }) {
       <div className="eyebrow">Playground</div>
       <h2>Cube type</h2>
       <p className="lede">
-        The same pipeline renders a five-row cube alphabet. Type anything; export it as SVG or as a watertight OBJ for
+        The same pipeline renders a five-row cube alphabet. Type anything; export it as SVG or as an OBJ (one closed cube per voxel) for
         print, motion, or signage.
       </p>
       <div className="grid-2" style={{ marginTop: '2rem', alignItems: 'start' }}>
@@ -55,21 +55,17 @@ export function Playground({ theme }: { theme: 'light' | 'dark' }) {
             <button
               className="btn small"
               onClick={() => {
-                const shell = exportObj(model, slug, { colors: cw });
-                const cubes = exportObj(model, `${slug}-cubes`, { colors: cw, topology: 'cubes' });
+                const { obj, mtl } = exportObj(model, slug, { colors: cw });
                 download(
                   `${slug}-obj.zip`,
                   zip([
-                    { name: `${slug}.obj`, content: shell.obj },
-                    { name: `${slug}.mtl`, content: shell.mtl },
-                    { name: `${slug}-cubes.obj`, content: cubes.obj },
-                    { name: `${slug}-cubes.mtl`, content: cubes.mtl },
-                    { name: 'README.txt', content: `${slug}.obj — watertight shell (internal faces culled)\n${slug}-cubes.obj — one closed cube per voxel, grouped g cube_N\n` },
+                    { name: `${slug}.obj`, content: obj },
+                    { name: `${slug}.mtl`, content: mtl },
                   ]),
                 );
               }}
             >
-              Download OBJ bundle (.zip)
+              Download OBJ + MTL (.zip)
             </button>
           </div>
           <div className="math" style={{ fontSize: '0.75rem' }}>{`textToVoxels('${clean}', { letterSpacing: ${spacing} })

@@ -40,20 +40,17 @@ export function Hero({ theme }: { theme: 'light' | 'dark' }) {
           <button
             className="btn"
             onClick={() => {
-              const shell = exportMark({ colors: colorways[colorway] });
-              const cubes = exportMark({ colors: colorways[colorway], topology: 'cubes' }, 'constructive-mark-cubes');
+              const { obj, mtl } = exportMark({ colors: colorways[colorway] });
               download(
                 'constructive-mark-obj.zip',
                 zip([
-                  { name: 'constructive-mark.obj', content: shell.obj },
-                  { name: 'constructive-mark.mtl', content: shell.mtl },
-                  { name: 'constructive-mark-cubes.obj', content: cubes.obj },
-                  { name: 'constructive-mark-cubes.mtl', content: cubes.mtl },
+                  { name: 'constructive-mark.obj', content: obj },
+                  { name: 'constructive-mark.mtl', content: mtl },
                 ]),
               );
             }}
           >
-            Download OBJ (.zip)
+            Download OBJ + MTL (.zip)
           </button>
         </div>
       </div>

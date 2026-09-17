@@ -1,7 +1,6 @@
 import {
   center,
   colorways,
-  exposedFaces,
   FACE_LABEL,
   FACE_NORMALS,
   FaceColors,
@@ -21,8 +20,8 @@ export interface MeshFace {
   normal: Vec3;
   material: MaterialName;
   face: FaceId;
-  /** Index of the source voxel; set when `topology: 'cubes'`. */
-  group?: number;
+  /** Index of the source voxel; every face belongs to exactly one cube. */
+  group: number;
 }
 
 export interface Mesh {
@@ -31,16 +30,9 @@ export interface Mesh {
   materials: Record<MaterialName, string>;
 }
 
-/**
- * `shell`: one watertight surface, faces between touching cubes culled, vertices shared.
- * `cubes`: every voxel is a complete closed cube with its own vertices, grouped per cube.
- */
-export type MeshTopology = 'shell' | 'cubes';
-
 export interface MeshOptions {
   /** Edge length in world units. */
   size?: number;
-  topology?: MeshTopology;
   /** Translate so the bounding box is centred on the origin. */
   center?: boolean;
   colors?: Partial<FaceColors>;
@@ -56,19 +48,18 @@ const OPPOSITE: Record<FaceId, MaterialName> = {
 };
 
 /**
- * Build a quad mesh from a voxel model. Default `shell` topology emits only faces
- * touching air and deduplicates shared vertices; `cubes` keeps every cube whole.
+ * Build a quad mesh from a voxel model. Every voxel becomes a complete closed cube with
+ * its own eight vertices — the logo *is* six touching cubes, so touching faces are kept.
  */
 export function buildMesh(model: VoxelModel, opts: MeshOptions = {}): Mesh {
   const size = opts.size ?? 1;
-  const topology = opts.topology ?? 'shell';
   const c = opts.center ? center(model) : { x: 0, y: 0, z: 0 };
   const colors: FaceColors = { ...colorways.solid, ...opts.colors };
 
   const vertices: Vec3[] = [];
   const index = new Map<string, number>();
   const vertex = (p: Vec3, group: number): number => {
-    const key = `${topology === 'cubes' ? `${group}:` : ''}${p.x},${p.y},${p.z}`;
+    const key = `${group}:${p.x},${p.y},${p.z}`;
     let i = index.get(key);
     if (i === undefined) {
       i = vertices.length;
@@ -78,23 +69,18 @@ export function buildMesh(model: VoxelModel, opts: MeshOptions = {}): Mesh {
     return i;
   };
 
-  const groupOf = new Map<Vec3, number>(model.voxels.map((v, i) => [v, i]));
-  const source =
-    topology === 'cubes'
-      ? model.voxels.flatMap((voxel) => (Object.keys(FACE_NORMALS) as FaceId[]).map((face) => ({ voxel, face })))
-      : exposedFaces(model);
-
-  const faces: MeshFace[] = source.map(({ voxel, face }) => {
-    const group = groupOf.get(voxel) ?? 0;
-    const [a, b, cc, d] = faceCorners(voxel, face);
-    return {
-      indices: [vertex(a, group), vertex(b, group), vertex(cc, group), vertex(d, group)],
-      normal: FACE_NORMALS[face],
-      material: isVisibleFace(face) ? FACE_LABEL[face] : OPPOSITE[face],
-      face,
-      ...(topology === 'cubes' ? { group } : {}),
-    };
-  });
+  const faces: MeshFace[] = model.voxels.flatMap((voxel, group) =>
+    (Object.keys(FACE_NORMALS) as FaceId[]).map((face): MeshFace => {
+      const [a, b, cc, d] = faceCorners(voxel, face);
+      return {
+        indices: [vertex(a, group), vertex(b, group), vertex(cc, group), vertex(d, group)],
+        normal: FACE_NORMALS[face],
+        material: isVisibleFace(face) ? FACE_LABEL[face] : OPPOSITE[face],
+        face,
+        group,
+      };
+    }),
+  );
 
   return { vertices, faces, materials: { top: colors.top, left: colors.left, right: colors.right } };
 }
@@ -134,7 +120,7 @@ const f = (n: number, p: number): string => {
 };
 
 /**
- * Wavefront OBJ. Vertices are 1-based; each quad is one `f` line; `cubes` meshes get one `g` per cube.
+ * Wavefront OBJ. Vertices are 1-based; each quad is one `f` line; each cube is its own `g cube_N`.
  *
  * Brand space is left-handed as seen from the isometric camera (+x screen-right, +y screen-left), so
  * x and y are swapped on the way out — the same mapping the WebGL renderer uses — and quads are
@@ -175,7 +161,7 @@ export function toObj(mesh: Mesh, opts: ObjOptions = {}): string {
   let current: MaterialName | undefined;
   let group: number | undefined;
   mesh.faces.forEach((face, i) => {
-    if (face.group !== undefined && face.group !== group) {
+    if (face.group !== group) {
       group = face.group;
       lines.push(`g cube_${group}`);
       current = undefined;

@@ -90,7 +90,6 @@ export function objCommand(positional: string[], flags: Flags): { obj: string; m
     size: num(flags.size, 1),
     colors: colorway(flags),
     yUp: flags['z-up'] !== true,
-    topology: flags.cubes === true ? 'cubes' : 'shell',
   });
   return { ...out, name: str(flags.name, name) };
 }
@@ -152,18 +151,14 @@ export function generateAll(): GeneratedFile[] {
     push(`svg/alphabet/${safe}.svg`, renderSvg(textToVoxels(ch), { size: 40, strokeWidth: 4, padding: 8 }).svg);
   }
 
-  // Two topologies per model: a watertight shell, and one closed cube per voxel (`-cubes`).
   const objModels: [string, VoxelModel][] = [
     ['constructive-mark', MARK],
     ['constructive-wordmark', textToVoxels('CONSTRUCTIVE')],
   ];
   for (const [name, model] of objModels) {
-    for (const topology of ['shell', 'cubes'] as const) {
-      const n = topology === 'cubes' ? `${name}-cubes` : name;
-      const r = exportObj(model, n, { colors: colorways.solid, topology });
-      push(`obj/${n}.obj`, r.obj);
-      push(`obj/${n}.mtl`, r.mtl);
-    }
+    const r = exportObj(model, name, { colors: colorways.solid });
+    push(`obj/${name}.obj`, r.obj);
+    push(`obj/${name}.mtl`, r.mtl);
   }
 
   // Per motion family: stills at t=0 and t=0.5 plus a self-contained SMIL animation.
@@ -192,7 +187,7 @@ const HELP = `brand-kit — Constructive brand geometry tools
   brand-kit svg  [mark | text <str> | grid <rows>] [--mode filled|outline|wireframe]
                  [--colorway light|dark|mono|solid] [--plane Yz] [--size 120]
                  [--stroke-width 10] [--padding 20] [--background #fff] [--out file.svg]
-  brand-kit obj  [mark | text <str> | grid <rows>] [--colorway solid] [--plane Yz] [--cubes]
+  brand-kit obj  [mark | text <str> | grid <rows>] [--colorway solid] [--plane Yz]
                  [--size 1] [--z-up] [--out dir]
   brand-kit frames [mark | text <str> | grid <rows>] --family explode|assemble|converge|orbit|tetris
                  [--preset <name>] [--frames 24] [--distance 3] [--colorway light] [--out dir]
