@@ -6,6 +6,18 @@ const MARK = gridToVoxels([[0, 1, 1], [1, 0, 0], [1, 0, 0], [0, 1, 1]], 'Yz');
 
 const cube = gridToVoxels([[1]], 'xy');
 
+describe('buildMesh cubes topology', () => {
+  it('keeps every cube whole with its own vertices and group', () => {
+    const m = buildMesh(MARK, { topology: 'cubes' });
+    expect(m.faces).toHaveLength(36);
+    expect(m.vertices).toHaveLength(48);
+    expect(new Set(m.faces.map((f) => f.group)).size).toBe(6);
+    const obj = toObj(m, { mtllib: 'x.mtl' });
+    expect(obj.match(/^g cube_\d+$/gm)).toHaveLength(6);
+    expect(obj.match(/^f /gm)).toHaveLength(36);
+  });
+});
+
 describe('buildMesh', () => {
   it('single cube: 8 vertices, 6 quads', () => {
     const m = buildMesh(cube);

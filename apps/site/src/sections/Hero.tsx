@@ -4,6 +4,7 @@ import { useRef, useState } from 'react';
 
 import { Seg } from '../components/Seg';
 import { download } from '../components/util';
+import { zip } from '../components/zip';
 import { MarkCanvas, MarkCanvasHandle } from '../three/MarkCanvas';
 
 type Colorway = keyof typeof colorways;
@@ -39,12 +40,20 @@ export function Hero({ theme }: { theme: 'light' | 'dark' }) {
           <button
             className="btn"
             onClick={() => {
-              const { obj, mtl } = exportMark({ colors: colorways[colorway] });
-              download('constructive-mark.obj', obj);
-              download('constructive-mark.mtl', mtl);
+              const shell = exportMark({ colors: colorways[colorway] });
+              const cubes = exportMark({ colors: colorways[colorway], topology: 'cubes' }, 'constructive-mark-cubes');
+              download(
+                'constructive-mark-obj.zip',
+                zip([
+                  { name: 'constructive-mark.obj', content: shell.obj },
+                  { name: 'constructive-mark.mtl', content: shell.mtl },
+                  { name: 'constructive-mark-cubes.obj', content: cubes.obj },
+                  { name: 'constructive-mark-cubes.mtl', content: cubes.mtl },
+                ]),
+              );
             }}
           >
-            Download OBJ
+            Download OBJ (.zip)
           </button>
         </div>
       </div>

@@ -21,6 +21,8 @@ export interface MeshFace {
   normal: Vec3;
   material: MaterialName;
   face: FaceId;
+  /** Index of the source voxel; set when `topology: 'cubes'`. */
+  group?: number;
 }
 
 export interface Mesh {
@@ -29,9 +31,16 @@ export interface Mesh {
   materials: Record<MaterialName, string>;
 }
 
+/**
+ * `shell`: one watertight surface, faces between touching cubes culled, vertices shared.
+ * `cubes`: every voxel is a complete closed cube with its own vertices, grouped per cube.
+ */
+export type MeshTopology = 'shell' | 'cubes';
+
 export interface MeshOptions {
   /** Edge length in world units. */
   size?: number;
+  topology?: MeshTopology;
   /** Translate so the bounding box is centred on the origin. */
   center?: boolean;
   colors?: Partial<FaceColors>;
@@ -47,18 +56,19 @@ const OPPOSITE: Record<FaceId, MaterialName> = {
 };
 
 /**
- * Build a watertight quad mesh from a voxel model: only faces touching air
- * are emitted, and vertices shared between faces are deduplicated.
+ * Build a quad mesh from a voxel model. Default `shell` topology emits only faces
+ * touching air and deduplicates shared vertices; `cubes` keeps every cube whole.
  */
 export function buildMesh(model: VoxelModel, opts: MeshOptions = {}): Mesh {
   const size = opts.size ?? 1;
+  const topology = opts.topology ?? 'shell';
   const c = opts.center ? center(model) : { x: 0, y: 0, z: 0 };
   const colors: FaceColors = { ...colorways.solid, ...opts.colors };
 
   const vertices: Vec3[] = [];
   const index = new Map<string, number>();
-  const vertex = (p: Vec3): number => {
-    const key = `${p.x},${p.y},${p.z}`;
+  const vertex = (p: Vec3, group: number): number => {
+    const key = `${topology === 'cubes' ? `${group}:` : ''}${p.x},${p.y},${p.z}`;
     let i = index.get(key);
     if (i === undefined) {
       i = vertices.length;
@@ -68,13 +78,21 @@ export function buildMesh(model: VoxelModel, opts: MeshOptions = {}): Mesh {
     return i;
   };
 
-  const faces: MeshFace[] = exposedFaces(model).map(({ voxel, face }) => {
+  const groupOf = new Map<Vec3, number>(model.voxels.map((v, i) => [v, i]));
+  const source =
+    topology === 'cubes'
+      ? model.voxels.flatMap((voxel) => (Object.keys(FACE_NORMALS) as FaceId[]).map((face) => ({ voxel, face })))
+      : exposedFaces(model);
+
+  const faces: MeshFace[] = source.map(({ voxel, face }) => {
+    const group = groupOf.get(voxel) ?? 0;
     const [a, b, cc, d] = faceCorners(voxel, face);
     return {
-      indices: [vertex(a), vertex(b), vertex(cc), vertex(d)],
+      indices: [vertex(a, group), vertex(b, group), vertex(cc, group), vertex(d, group)],
       normal: FACE_NORMALS[face],
       material: isVisibleFace(face) ? FACE_LABEL[face] : OPPOSITE[face],
       face,
+      ...(topology === 'cubes' ? { group } : {}),
     };
   });
 
@@ -115,7 +133,7 @@ const f = (n: number, p: number): string => {
   return s === `-${(0).toFixed(p)}` ? (0).toFixed(p) : s;
 };
 
-/** Wavefront OBJ. Vertices are 1-based; each quad is one `f` line. */
+/** Wavefront OBJ. Vertices are 1-based; each quad is one `f` line; `cubes` meshes get one `g` per cube. */
 export function toObj(mesh: Mesh, opts: ObjOptions = {}): string {
   const { name = 'constructive', mtllib, yUp = true, precision = 4 } = opts;
   const swap = (v: Vec3): Vec3 => (yUp ? { x: v.x, y: v.z, z: -v.y } : v);
@@ -145,7 +163,13 @@ export function toObj(mesh: Mesh, opts: ObjOptions = {}): string {
   for (const n of normals) lines.push(`vn ${f(n.x, 0)} ${f(n.y, 0)} ${f(n.z, 0)}`);
 
   let current: MaterialName | undefined;
+  let group: number | undefined;
   mesh.faces.forEach((face, i) => {
+    if (face.group !== undefined && face.group !== group) {
+      group = face.group;
+      lines.push(`g cube_${group}`);
+      current = undefined;
+    }
     if (mtllib && face.material !== current) {
       current = face.material;
       lines.push(`usemtl ${current}`);

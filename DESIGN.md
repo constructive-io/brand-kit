@@ -124,7 +124,7 @@ Constructive even at 16 px.
 
 `@constructive-io/brand-font` provides a 5-row cube alphabet (A–Z, 0–9, common punctuation) built with the same lift
 and projection as the mark. It is a *display* face for headlines, patterns, and motion — not for running text. The
-`CONSTRUCTIVE` cube wordmark (`assets/generated/obj/constructive-wordmark-cubes.obj`) exists for 3D and architectural
+`CONSTRUCTIVE` cube wordmark (`assets/generated/obj/constructive-wordmark.obj`) exists for 3D and architectural
 contexts; the official lockups remain Poppins.
 
 ## 5. Lockups and usage

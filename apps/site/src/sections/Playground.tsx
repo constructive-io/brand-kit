@@ -7,6 +7,7 @@ import { useMemo, useState } from 'react';
 import { Seg } from '../components/Seg';
 import { Svg } from '../components/Svg';
 import { download } from '../components/util';
+import { zip } from '../components/zip';
 import { MarkCanvas } from '../three/MarkCanvas';
 
 type Colorway = keyof typeof colorways;
@@ -54,12 +55,21 @@ export function Playground({ theme }: { theme: 'light' | 'dark' }) {
             <button
               className="btn small"
               onClick={() => {
-                const r = exportObj(model, slug, { colors: cw });
-                download(`${slug}.obj`, r.obj);
-                download(`${slug}.mtl`, r.mtl);
+                const shell = exportObj(model, slug, { colors: cw });
+                const cubes = exportObj(model, `${slug}-cubes`, { colors: cw, topology: 'cubes' });
+                download(
+                  `${slug}-obj.zip`,
+                  zip([
+                    { name: `${slug}.obj`, content: shell.obj },
+                    { name: `${slug}.mtl`, content: shell.mtl },
+                    { name: `${slug}-cubes.obj`, content: cubes.obj },
+                    { name: `${slug}-cubes.mtl`, content: cubes.mtl },
+                    { name: 'README.txt', content: `${slug}.obj — watertight shell (internal faces culled)\n${slug}-cubes.obj — one closed cube per voxel, grouped g cube_N\n` },
+                  ]),
+                );
               }}
             >
-              Download OBJ + MTL
+              Download OBJ bundle (.zip)
             </button>
           </div>
           <div className="math" style={{ fontSize: '0.75rem' }}>{`textToVoxels('${clean}', { letterSpacing: ${spacing} })
