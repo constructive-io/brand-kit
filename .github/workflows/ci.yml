@@ -61,4 +61,5 @@ jobs:
         run: |
           pnpm generate
           git diff --exit-code -- assets/generated
+          git ls-files | tr 'A-Z' 'a-z' | sort | uniq -d | { ! grep .; }
 

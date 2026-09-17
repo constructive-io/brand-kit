@@ -124,6 +124,11 @@ export interface GeneratedFile {
 }
 
 /** Everything committed under assets/generated. */
+/** Case-insensitive-filesystem-safe name for a plane: `Yz` → `neg-y_z`, `xy` → `x_y`. */
+export function planeSlug(p: IsoPlane): string {
+  return [...p].map((c) => (c === c.toUpperCase() ? `neg-${c.toLowerCase()}` : c)).join('_');
+}
+
 export function generateAll(): GeneratedFile[] {
   const files: GeneratedFile[] = [];
   const push = (path: string, content: string) => files.push({ path, content });
@@ -137,7 +142,7 @@ export function generateAll(): GeneratedFile[] {
   }
 
   for (const p of ISO_PLANES) {
-    push(`svg/planes/mark-${p}.svg`, renderSvg(gridToVoxels(MARK_GRID, p), { colors: colorways.light }).svg);
+    push(`svg/planes/mark-${planeSlug(p)}.svg`, renderSvg(gridToVoxels(MARK_GRID, p), { colors: colorways.light }).svg);
   }
 
   for (const ch of supportedChars()) {
