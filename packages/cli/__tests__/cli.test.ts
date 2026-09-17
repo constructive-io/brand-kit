@@ -1,4 +1,4 @@
-import { generateAll, objCommand, parseArgs, svgCommand } from '../src';
+import { generateAll, objCommand, parseArgs, planeSlug, svgCommand } from '../src';
 
 describe('parseArgs', () => {
   it('parses command, positionals and flags', () => {
@@ -40,10 +40,24 @@ describe('generateAll', () => {
     const paths = files.map((f) => f.path);
     expect(paths).toContain('svg/mark-light.svg');
     expect(paths).toContain('svg/mark-wireframe.svg');
-    expect(paths).toContain('svg/planes/mark-Yz.svg');
+    expect(paths).toContain('svg/planes/mark-neg-y_z.svg');
     expect(paths).toContain('svg/alphabet/C.svg');
     expect(paths).toContain('obj/constructive-mark.obj');
     expect(new Set(paths).size).toBe(paths.length);
     expect(files.every((f) => f.content.length > 0)).toBe(true);
+  });
+});
+
+describe('planeSlug', () => {
+  it('encodes negative axes so names differ on case-insensitive filesystems', () => {
+    expect(planeSlug('xy')).toBe('x_y');
+    expect(planeSlug('Yz')).toBe('neg-y_z');
+  });
+});
+
+describe('generateAll', () => {
+  it('produces no paths that collide when case is folded', () => {
+    const lower = generateAll().map((f) => f.path.toLowerCase());
+    expect(new Set(lower).size).toBe(lower.length);
   });
 });
