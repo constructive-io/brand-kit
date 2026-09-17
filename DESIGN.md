@@ -77,7 +77,7 @@ depth `x + y + z` and drawn in that order; no z-buffer is needed because cubes o
 | Output | Package | What it is |
 | --- | --- | --- |
 | SVG | `@constructive-io/brand-svg` | Visible faces as `<path>`s with the colorway applied; `filled`, `outline`, `wireframe` |
-| OBJ + MTL | `@constructive-io/brand-3d` | Quad mesh, culled and de-duplicated, Y-up by default, with `top`/`left`/`right` materials |
+| OBJ + MTL | `@constructive-io/brand-3d` | Six complete unit cubes (one `g` group each, touching — never merged), Y-up by default, with `top`/`left`/`right` materials |
 | WebGL | `@constructive-io/brand-motion-3d` | three.js scene with an orthographic camera on the `(1,1,1)` diagonal; identical framing to the SVG |
 
 `@constructive-io/brand-logo` wraps these for the mark (`renderMark`, `exportMark`);
@@ -124,7 +124,7 @@ Constructive even at 16 px.
 
 `@constructive-io/brand-font` provides a 5-row cube alphabet (A–Z, 0–9, common punctuation) built with the same lift
 and projection as the mark. It is a *display* face for headlines, patterns, and motion — not for running text. The
-`CONSTRUCTIVE` cube wordmark (`assets/generated/obj/constructive-wordmark-cubes.obj`) exists for 3D and architectural
+`CONSTRUCTIVE` cube wordmark (`assets/generated/obj/constructive-wordmark.obj`) exists for 3D and architectural
 contexts; the official lockups remain Poppins.
 
 ## 5. Lockups and usage

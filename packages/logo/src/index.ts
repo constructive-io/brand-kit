@@ -11,6 +11,6 @@ export function renderMark(opts: RenderOptions = {}): RenderResult {
 }
 
 /** The Constructive mark as OBJ + MTL. */
-export function exportMark(opts: MeshOptions & Omit<ObjOptions, 'name' | 'mtllib'> = {}): ExportResult {
-  return exportObj(MARK, 'constructive-mark', opts);
+export function exportMark(opts: MeshOptions & Omit<ObjOptions, 'name' | 'mtllib'> = {}, name = 'constructive-mark'): ExportResult {
+  return exportObj(MARK, name, opts);
 }

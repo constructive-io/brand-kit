@@ -7,6 +7,7 @@ import { useMemo, useState } from 'react';
 import { Seg } from '../components/Seg';
 import { Svg } from '../components/Svg';
 import { download } from '../components/util';
+import { zip } from '../components/zip';
 import { MarkCanvas } from '../three/MarkCanvas';
 
 type Colorway = keyof typeof colorways;
@@ -29,7 +30,7 @@ export function Playground({ theme }: { theme: 'light' | 'dark' }) {
       <div className="eyebrow">Playground</div>
       <h2>Cube type</h2>
       <p className="lede">
-        The same pipeline renders a five-row cube alphabet. Type anything; export it as SVG or as a watertight OBJ for
+        The same pipeline renders a five-row cube alphabet. Type anything; export it as SVG or as an OBJ (one closed cube per voxel) for
         print, motion, or signage.
       </p>
       <div className="grid-2" style={{ marginTop: '2rem', alignItems: 'start' }}>
@@ -54,12 +55,17 @@ export function Playground({ theme }: { theme: 'light' | 'dark' }) {
             <button
               className="btn small"
               onClick={() => {
-                const r = exportObj(model, slug, { colors: cw });
-                download(`${slug}.obj`, r.obj);
-                download(`${slug}.mtl`, r.mtl);
+                const { obj, mtl } = exportObj(model, slug, { colors: cw });
+                download(
+                  `${slug}-obj.zip`,
+                  zip([
+                    { name: `${slug}.obj`, content: obj },
+                    { name: `${slug}.mtl`, content: mtl },
+                  ]),
+                );
               }}
             >
-              Download OBJ + MTL
+              Download OBJ + MTL (.zip)
             </button>
           </div>
           <div className="math" style={{ fontSize: '0.75rem' }}>{`textToVoxels('${clean}', { letterSpacing: ${spacing} })

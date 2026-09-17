@@ -151,12 +151,15 @@ export function generateAll(): GeneratedFile[] {
     push(`svg/alphabet/${safe}.svg`, renderSvg(textToVoxels(ch), { size: 40, strokeWidth: 4, padding: 8 }).svg);
   }
 
-  const mark = exportObj(MARK, 'constructive-mark', { colors: colorways.solid });
-  push('obj/constructive-mark.obj', mark.obj);
-  push('obj/constructive-mark.mtl', mark.mtl);
-  const word = exportObj(textToVoxels('CONSTRUCTIVE'), 'constructive-wordmark-cubes', { colors: colorways.solid });
-  push('obj/constructive-wordmark-cubes.obj', word.obj);
-  push('obj/constructive-wordmark-cubes.mtl', word.mtl);
+  const objModels: [string, VoxelModel][] = [
+    ['constructive-mark', MARK],
+    ['constructive-wordmark', textToVoxels('CONSTRUCTIVE')],
+  ];
+  for (const [name, model] of objModels) {
+    const r = exportObj(model, name, { colors: colorways.solid });
+    push(`obj/${name}.obj`, r.obj);
+    push(`obj/${name}.mtl`, r.mtl);
+  }
 
   // Per motion family: stills at t=0 and t=0.5 plus a self-contained SMIL animation.
   for (const family of Object.keys(presets) as Family[]) {

@@ -27,7 +27,7 @@ system itself.
 | [`@constructive-io/brand-logo`](./packages/logo)           | The mark: `MARK_GRID`, `MARK`, `renderMark()` → SVG, `exportMark()` → OBJ/MTL |
 | [`@constructive-io/brand-font`](./packages/font)           | The cube alphabet: `textToVoxels()`, `renderText()`, `exportText()` |
 | [`@constructive-io/brand-svg`](./packages/svg)             | Deterministic SVG renderer (`filled`, `outline`, `wireframe`) and per-cube animation frames |
-| [`@constructive-io/brand-3d`](./packages/3d)               | Watertight quad mesh with culled internal faces and deduplicated vertices; OBJ + MTL export |
+| [`@constructive-io/brand-3d`](./packages/3d)               | Quad mesh → OBJ + MTL: six complete unit cubes, one `g cube_N` group each, `top`/`left`/`right` materials |
 | [`@constructive-io/brand-motion`](./packages/motion)       | Choreographies (`explode`, `assemble`, `converge`, `orbit`, `tetris`), composition (`chain`, `mirror`, `layer`) and multi-act `reels` |
 | [`@constructive-io/brand-motion-2d`](./packages/motion-2d) | Choreography → SVG frame sequences, self-contained animated SVG (SMIL), sprite sheets |
 | [`@constructive-io/brand-motion-3d`](./packages/motion-3d) | Choreography → three.js: `CubeScene`, brand materials, iso/free/path cameras and `cameraPaths` (orbit, sweep, dolly…) |
